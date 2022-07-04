@@ -61,6 +61,7 @@ class PostControllerTest {
 	@DisplayName("/post 등록 - title이 없는 경우")
 	void savePostFail1Test() throws Exception {
 		PostSaveDto dto = PostSaveDto.builder()
+			.title(null)
 			.content("글 내용")
 			.build();
 
@@ -68,7 +69,9 @@ class PostControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.title").value("제목은 필수입니다."));
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.code").value("400"))
+			.andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+			.andExpect(jsonPath("$.validation.title").value("제목은 필수입니다."));
 	}
 }
