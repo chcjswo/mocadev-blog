@@ -1,5 +1,7 @@
 package me.mocadev.mocadevblog.request;
 
+import javax.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -12,9 +14,13 @@ import lombok.Data;
  * @since 2022-07-04
  **/
 @Data
+@Builder
 public class PostSaveDto {
 
+	@NotBlank(message = "제목은 필수입니다.")
 	private String title;
+
+	@NotBlank(message = "내용은 필수입니다.")
 	private String content;
 
 }
