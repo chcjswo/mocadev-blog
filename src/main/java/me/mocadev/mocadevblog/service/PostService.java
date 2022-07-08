@@ -1,5 +1,6 @@
 package me.mocadev.mocadevblog.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
@@ -27,5 +28,10 @@ public class PostService {
 			.content(postSaveDto.getContent())
 			.build();
 		postRepository.save(post);
+	}
+
+	public Post findPostById(Long postId) {
+		return postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
 	}
 }

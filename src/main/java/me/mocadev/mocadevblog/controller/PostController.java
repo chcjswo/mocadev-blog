@@ -3,9 +3,11 @@ package me.mocadev.mocadevblog.controller;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.service.PostService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,11 @@ public class PostController {
 	@PostMapping("/posts")
 	public void savePost(@Valid @RequestBody PostSaveDto params) {
 		postService.write(params);
+	}
+
+	@GetMapping("/posts/{postId}")
+	public Post findPostById(@PathVariable Long postId) {
+		return postService.findPostById(postId);
 	}
 
 }

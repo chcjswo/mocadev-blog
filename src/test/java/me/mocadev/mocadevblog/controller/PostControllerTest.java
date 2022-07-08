@@ -1,6 +1,7 @@
 package me.mocadev.mocadevblog.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -108,5 +109,25 @@ class PostControllerTest {
 		final Post post = postRepository.findAll().get(0);
 		assertEquals("제목", post.getTitle());
 		assertEquals("내용", post.getContent());
+	}
+
+	@Test
+	@DisplayName("글 1개 조회")
+	void test() throws Exception {
+		// given
+		final Post requestPost = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(requestPost);
+
+		// when & then
+		mockMvc.perform(get("/posts/{postId}", requestPost.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value(requestPost.getId()))
+			.andExpect(jsonPath("$.title").value(requestPost.getTitle()))
+			.andExpect(jsonPath("$.content").value(requestPost.getContent()));
 	}
 }
