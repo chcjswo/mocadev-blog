@@ -2,7 +2,9 @@ package me.mocadev.mocadevblog.request;
 
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 글 등록 DTO
@@ -13,14 +15,20 @@ import lombok.Data;
  * @github https://github.com/chcjswo
  * @since 2022-07-04
  **/
-@Data
-@Builder
+@Getter
+@Setter
+@ToString
 public class PostSaveDto {
 
 	@NotBlank(message = "제목은 필수입니다.")
-	private String title;
+	private final String title;
 
 	@NotBlank(message = "내용은 필수입니다.")
-	private String content;
+	private final String content;
 
+	@Builder
+	public PostSaveDto(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 }

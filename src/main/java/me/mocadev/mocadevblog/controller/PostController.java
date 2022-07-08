@@ -1,6 +1,5 @@
 package me.mocadev.mocadevblog.controller;
 
-import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +30,8 @@ public class PostController {
 	}
 
 	@PostMapping("/posts")
-	public Map<String, String> savePost(@Valid @RequestBody PostSaveDto params) {
-		log.info("params = {}", params);
+	public void savePost(@Valid @RequestBody PostSaveDto params) {
 		postService.write(params);
-		return Map.of();
 	}
 
 }

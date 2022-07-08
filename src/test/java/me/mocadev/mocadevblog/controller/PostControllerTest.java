@@ -68,7 +68,7 @@ class PostControllerTest {
 				.content(objectMapper.writeValueAsString(dto)))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(content().string("{}"));
+			.andExpect(content().string(""));
 	}
 
 	@Test

@@ -22,7 +22,10 @@ public class PostService {
 	private final PostRepository postRepository;
 
 	public void write(PostSaveDto postSaveDto) {
-		final Post post = new Post(postSaveDto.getTitle(), postSaveDto.getContent());
+		final Post post = Post.builder()
+			.title(postSaveDto.getTitle())
+			.content(postSaveDto.getContent())
+			.build();
 		postRepository.save(post);
 	}
 }
