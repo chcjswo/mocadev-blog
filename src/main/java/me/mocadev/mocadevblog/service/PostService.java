@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostSaveDto;
+import me.mocadev.mocadevblog.response.PostResponseDto;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,8 +31,14 @@ public class PostService {
 		postRepository.save(post);
 	}
 
-	public Post findPostById(Long postId) {
-		return postRepository.findById(postId)
+	public PostResponseDto findPostById(Long postId) {
+		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+		return PostResponseDto.builder()
+			.id(post.getId())
+			.title(post.getTitle())
+			.content(post.getContent())
+			.build();
 	}
 }

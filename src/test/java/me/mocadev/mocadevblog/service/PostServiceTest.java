@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostSaveDto;
+import me.mocadev.mocadevblog.response.PostResponseDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,11 +61,11 @@ class PostServiceTest {
 		postRepository.save(requestPost);
 
 		// when
-		final Post post = postService.findPostById(requestPost.getId());
+		final PostResponseDto response = postService.findPostById(requestPost.getId());
 
 		// then
-		assertNotNull(post);
-		assertEquals("제목", post.getTitle());
-		assertEquals("내용", post.getContent());
+		assertNotNull(response);
+		assertEquals("제목", response.getTitle());
+		assertEquals("내용", response.getContent());
 	}
 }

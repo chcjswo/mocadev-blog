@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.request.PostSaveDto;
+import me.mocadev.mocadevblog.response.PostResponseDto;
 import me.mocadev.mocadevblog.service.PostService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class PostController {
 	}
 
 	@GetMapping("/posts/{postId}")
-	public Post findPostById(@PathVariable Long postId) {
+	public PostResponseDto findPostById(@PathVariable Long postId) {
 		return postService.findPostById(postId);
 	}
 
