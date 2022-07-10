@@ -1,9 +1,9 @@
 package me.mocadev.mocadevblog.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.response.PostResponseDto;
 import me.mocadev.mocadevblog.service.PostService;
@@ -27,11 +27,6 @@ public class PostController {
 
 	private final PostService postService;
 
-	@GetMapping("/posts")
-	public String getPosts() {
-		return "Hello Mocadev Blog";
-	}
-
 	@PostMapping("/posts")
 	public void savePost(@Valid @RequestBody PostSaveDto params) {
 		postService.write(params);
@@ -40,6 +35,11 @@ public class PostController {
 	@GetMapping("/posts/{postId}")
 	public PostResponseDto findPostById(@PathVariable Long postId) {
 		return postService.findPostById(postId);
+	}
+
+	@GetMapping("/posts")
+	public List<PostResponseDto> findPosts() {
+		return postService.findPosts();
 	}
 
 }

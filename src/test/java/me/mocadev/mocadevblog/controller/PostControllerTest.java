@@ -1,7 +1,7 @@
 package me.mocadev.mocadevblog.controller;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -45,15 +45,6 @@ class PostControllerTest {
 	@BeforeEach
 	void after() {
 		postRepository.deleteAll();
-	}
-
-	@Test
-	@DisplayName("/posts 요청 출력")
-	void getPostsTest() throws Exception {
-		mockMvc.perform(get("/posts"))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().string("Hello Mocadev Blog"));
 	}
 
 	@Test
@@ -129,5 +120,28 @@ class PostControllerTest {
 			.andExpect(jsonPath("$.id").value(requestPost.getId()))
 			.andExpect(jsonPath("$.title").value(requestPost.getTitle()))
 			.andExpect(jsonPath("$.content").value(requestPost.getContent()));
+	}
+
+	@Test
+	@DisplayName("글 전체 조회")
+	void findPostsTest() throws Exception {
+		// given
+		Post requestPost = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(requestPost);
+		requestPost = Post.builder()
+			.title("제목2")
+			.content("내용2")
+			.build();
+		postRepository.save(requestPost);
+
+		// when & then
+		mockMvc.perform(get("/posts")
+				.contentType(MediaType.APPLICATION_JSON))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.length()", is(2)));
 	}
 }

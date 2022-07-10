@@ -1,12 +1,13 @@
 package me.mocadev.mocadevblog.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.response.PostResponseDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,5 +68,28 @@ class PostServiceTest {
 		assertNotNull(response);
 		assertEquals("제목", response.getTitle());
 		assertEquals("내용", response.getContent());
+	}
+
+	@Test
+	@DisplayName("글 전체 조회")
+	void findPostsTest() throws Exception {
+		// given
+		Post requestPost = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(requestPost);
+		requestPost = Post.builder()
+			.title("제목2")
+			.content("내용2")
+			.build();
+		postRepository.save(requestPost);
+
+		// when
+		final List<PostResponseDto> posts = postService.findPosts();
+
+		// then
+		assertNotNull(posts);
+		assertEquals(2L, postRepository.count());
 	}
 }
