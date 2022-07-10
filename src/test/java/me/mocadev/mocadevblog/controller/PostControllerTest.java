@@ -10,6 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostSaveDto;
@@ -126,22 +129,20 @@ class PostControllerTest {
 	@DisplayName("글 전체 조회")
 	void findPostsTest() throws Exception {
 		// given
-		Post requestPost = Post.builder()
-			.title("제목")
-			.content("내용")
-			.build();
-		postRepository.save(requestPost);
-		requestPost = Post.builder()
-			.title("제목2")
-			.content("내용2")
-			.build();
-		postRepository.save(requestPost);
+		final List<Post> requestPosts = IntStream.range(1, 31)
+			.mapToObj(i ->
+				Post.builder()
+					.title("제목 " + i)
+					.content("내용 " + i)
+					.build())
+			.collect(Collectors.toList());
+		postRepository.saveAll(requestPosts);
 
 		// when & then
-		mockMvc.perform(get("/posts")
+		mockMvc.perform(get("/posts?page=1&sort=id,desc&size=5")
 				.contentType(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.length()", is(2)));
+			.andExpect(jsonPath("$.length()", is(5)));
 	}
 }

@@ -8,6 +8,7 @@ import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.response.PostResponseDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,9 +44,9 @@ public class PostService {
 			.build();
 	}
 
-	public List<PostResponseDto> findPosts() {
-		 return postRepository.findAll().stream()
-			 .map(PostResponseDto::new)
-			 .collect(Collectors.toList());
+	public List<PostResponseDto> findPosts(Pageable pageable) {
+		return postRepository.findAll(pageable).stream()
+			.map(PostResponseDto::new)
+			.collect(Collectors.toList());
 	}
 }

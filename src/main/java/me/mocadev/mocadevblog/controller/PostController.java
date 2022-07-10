@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.response.PostResponseDto;
 import me.mocadev.mocadevblog.service.PostService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,8 +39,8 @@ public class PostController {
 	}
 
 	@GetMapping("/posts")
-	public List<PostResponseDto> findPosts() {
-		return postService.findPosts();
+	public List<PostResponseDto> findPosts(Pageable pageable) {
+		return postService.findPosts(pageable);
 	}
 
 }
