@@ -139,7 +139,7 @@ class PostControllerTest {
 		postRepository.saveAll(requestPosts);
 
 		// when & then
-		mockMvc.perform(get("/posts?page=1&sort=id,desc&size=5")
+		mockMvc.perform(get("/posts?page=1&size=5")
 				.contentType(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isOk())

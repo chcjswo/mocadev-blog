@@ -1,15 +1,18 @@
 package me.mocadev.mocadevblog.repository;
 
+import java.util.List;
 import me.mocadev.mocadevblog.domain.Post;
-import org.springframework.data.jpa.repository.JpaRepository;
+import me.mocadev.mocadevblog.request.PostSearch;
 
 /**
  * @author chcjswo
  * @version 1.0.0
  * @blog https://mocadev.tistory.com
  * @github https://github.com/chcjswo
- * @since 2022-07-08
+ * @since 2022-07-12
  **/
-public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
+public interface PostRepositoryCustom {
+
+	List<Post> getList(PostSearch postSearch);
 
 }

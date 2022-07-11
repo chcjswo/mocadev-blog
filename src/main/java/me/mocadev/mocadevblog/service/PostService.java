@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostSaveDto;
+import me.mocadev.mocadevblog.request.PostSearch;
 import me.mocadev.mocadevblog.response.PostResponseDto;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,8 +44,8 @@ public class PostService {
 			.build();
 	}
 
-	public List<PostResponseDto> findPosts(Pageable pageable) {
-		return postRepository.findAll(pageable).stream()
+	public List<PostResponseDto> findPosts(PostSearch postSearch) {
+		return postRepository.getList(postSearch).stream()
 			.map(PostResponseDto::new)
 			.collect(Collectors.toList());
 	}

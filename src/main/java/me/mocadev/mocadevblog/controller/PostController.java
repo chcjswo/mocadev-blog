@@ -5,10 +5,11 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.request.PostSaveDto;
+import me.mocadev.mocadevblog.request.PostSearch;
 import me.mocadev.mocadevblog.response.PostResponseDto;
 import me.mocadev.mocadevblog.service.PostService;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +40,8 @@ public class PostController {
 	}
 
 	@GetMapping("/posts")
-	public List<PostResponseDto> findPosts(Pageable pageable) {
-		return postService.findPosts(pageable);
+	public List<PostResponseDto> findPosts(@ModelAttribute PostSearch postSearch) {
+		return postService.findPosts(postSearch);
 	}
 
 }
