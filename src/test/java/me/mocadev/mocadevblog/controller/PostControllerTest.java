@@ -2,6 +2,7 @@ package me.mocadev.mocadevblog.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -150,7 +151,7 @@ class PostControllerTest {
 
 	@Test
 	@DisplayName("글 수정")
-	void updatePostEdit() throws Exception {
+	void updatePostTest() throws Exception {
 		// given
 		final Post post = Post.builder()
 			.title("제목")
@@ -169,5 +170,22 @@ class PostControllerTest {
 				.content(objectMapper.writeValueAsString(postEditDto)))
 			.andDo(print())
 			.andExpect(status().isOk());
+	}
+
+	@Test
+	@DisplayName("글 삭제")
+	void deletePostTest() throws Exception {
+		// given
+		final Post post = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(post);
+
+		// when & then
+		mockMvc.perform(delete("/posts/{postId}", post.getId())
+				.contentType(MediaType.APPLICATION_JSON))
+			.andDo(print())
+			.andExpect(status().isNoContent());
 	}
 }

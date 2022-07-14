@@ -9,15 +9,14 @@ import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.request.PostSearch;
 import me.mocadev.mocadevblog.response.PostResponseDto;
 import me.mocadev.mocadevblog.service.PostService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -50,11 +49,16 @@ public class PostController {
 	}
 
 	@PatchMapping("/posts/{postId}")
-	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> updatePost(@PathVariable Long postId,
 										@RequestBody @Valid PostEditDto postEditDto) {
 		postService.edit(postId, postEditDto);
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok().build();
+	}
+
+	@DeleteMapping("/posts/{postId}")
+	public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+		postService.deletePost(postId);
+		return ResponseEntity.noContent().build();
 	}
 
 }
