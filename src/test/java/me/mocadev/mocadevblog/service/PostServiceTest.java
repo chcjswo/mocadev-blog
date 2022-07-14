@@ -2,11 +2,13 @@ package me.mocadev.mocadevblog.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import me.mocadev.mocadevblog.domain.Post;
+import me.mocadev.mocadevblog.exception.PostNotFoundException;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostEditDto;
 import me.mocadev.mocadevblog.request.PostSaveDto;
@@ -140,5 +142,21 @@ class PostServiceTest {
 
 		// then
 		assertEquals(0, postRepository.count());
+	}
+
+	@Test
+	@DisplayName("글 1개 조회")
+	void test2() {
+		// given
+		final Post post = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(post);
+
+		// then
+		final PostNotFoundException exception = assertThrows(PostNotFoundException.class,
+			() -> postService.findPostById(post.getId() + 1), "예외 처리 실패");
+		assertEquals("존재하지 않는 글입니다.", exception.getMessage());
 	}
 }

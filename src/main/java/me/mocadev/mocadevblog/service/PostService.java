@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.domain.PostEditor;
 import me.mocadev.mocadevblog.domain.PostEditor.PostEditorBuilder;
+import me.mocadev.mocadevblog.exception.PostNotFoundException;
 import me.mocadev.mocadevblog.repository.PostRepository;
 import me.mocadev.mocadevblog.request.PostEditDto;
 import me.mocadev.mocadevblog.request.PostSaveDto;
@@ -40,7 +41,7 @@ public class PostService {
 
 	public PostResponseDto findPostById(Long postId) {
 		Post post = postRepository.findById(postId)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+			.orElseThrow(PostNotFoundException::new);
 
 		return PostResponseDto.builder()
 			.id(post.getId())
@@ -58,7 +59,7 @@ public class PostService {
 	@Transactional
 	public void edit(Long id, PostEditDto postEditDto) {
 		final Post post = postRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+			.orElseThrow(PostNotFoundException::new);
 
 		final PostEditorBuilder postEditorBuilder = post.toEditor();
 		final PostEditor postEditor = postEditorBuilder.title(postEditDto.getTitle())
@@ -70,7 +71,7 @@ public class PostService {
 
 	public void deletePost(Long id) {
 		final Post post = postRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+			.orElseThrow(PostNotFoundException::new);
 
 		postRepository.delete(post);
 	}
