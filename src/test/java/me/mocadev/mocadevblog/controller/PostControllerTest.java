@@ -3,6 +3,7 @@ package me.mocadev.mocadevblog.controller;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
+import me.mocadev.mocadevblog.request.PostEditDto;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -144,5 +146,28 @@ class PostControllerTest {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.length()", is(5)));
+	}
+
+	@Test
+	@DisplayName("글 수정")
+	void updatePostEdit() throws Exception {
+		// given
+		final Post post = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(post);
+
+		final PostEditDto postEditDto = PostEditDto.builder()
+			.title("제목 수정")
+			.content("내용 수정")
+			.build();
+
+		// when & then
+		mockMvc.perform(patch("/posts/{postId}", post.getId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(postEditDto)))
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 }

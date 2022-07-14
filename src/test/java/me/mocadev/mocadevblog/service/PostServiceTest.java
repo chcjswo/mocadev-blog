@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
+import me.mocadev.mocadevblog.request.PostEditDto;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.request.PostSearch;
 import me.mocadev.mocadevblog.response.PostResponseDto;
@@ -25,6 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since 2022-07-09
  **/
 @SpringBootTest
+@DisplayName("포스트 서비스 테스트")
 class PostServiceTest {
 
 	@Autowired
@@ -97,5 +99,29 @@ class PostServiceTest {
 		// then
 		assertNotNull(posts);
 		assertEquals(10L, posts.size());
+	}
+
+	@Test
+	@DisplayName("글 제목 수정")
+	void updatePostTest() {
+		// given
+		final Post post = Post.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+		postRepository.save(post);
+
+		final PostEditDto postEditDto = PostEditDto.builder()
+			.title("제목 수정")
+			.build();
+
+		// when
+		postService.edit(post.getId(), postEditDto);
+
+		// then
+		final Post changePost = postRepository.findById(post.getId())
+			.orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id = " + post.getId()));
+
+		assertEquals("제목 수정", changePost.getTitle());
 	}
 }

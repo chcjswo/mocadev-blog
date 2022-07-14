@@ -2,10 +2,14 @@ package me.mocadev.mocadevblog.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
+import me.mocadev.mocadevblog.domain.PostEditor;
+import me.mocadev.mocadevblog.domain.PostEditor.PostEditorBuilder;
 import me.mocadev.mocadevblog.repository.PostRepository;
+import me.mocadev.mocadevblog.request.PostEditDto;
 import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.request.PostSearch;
 import me.mocadev.mocadevblog.response.PostResponseDto;
@@ -25,6 +29,7 @@ public class PostService {
 
 	private final PostRepository postRepository;
 
+	@Transactional
 	public void write(PostSaveDto postSaveDto) {
 		final Post post = Post.builder()
 			.title(postSaveDto.getTitle())
@@ -48,5 +53,18 @@ public class PostService {
 		return postRepository.getList(postSearch).stream()
 			.map(PostResponseDto::new)
 			.collect(Collectors.toList());
+	}
+
+	@Transactional
+	public void edit(Long id, PostEditDto postEditDto) {
+		final Post post = postRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+		final PostEditorBuilder postEditorBuilder = post.toEditor();
+		final PostEditor postEditor = postEditorBuilder.title(postEditDto.getTitle())
+			.content(postEditDto.getContent())
+			.build();
+
+		post.edit(postEditor);
 	}
 }
