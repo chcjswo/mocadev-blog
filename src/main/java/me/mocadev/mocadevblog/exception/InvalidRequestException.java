@@ -9,16 +9,16 @@ import org.springframework.http.HttpStatus;
  * @github https://github.com/chcjswo
  * @since 2022-07-15
  **/
-public class PostNotFoundException extends MocadevException {
+public class InvalidRequestException extends MocadevException {
 
-	private static final String MESSAGE = "존재하지 않는 글입니다.";
+	private static final String MESSAGE = "잘못된 요청입니다.";
 
-	public PostNotFoundException() {
+	public InvalidRequestException() {
 		super(MESSAGE);
 	}
 
 	@Override
 	public int getStatusCode() {
-		return HttpStatus.NOT_FOUND.value();
+		return HttpStatus.BAD_REQUEST.value();
 	}
 }

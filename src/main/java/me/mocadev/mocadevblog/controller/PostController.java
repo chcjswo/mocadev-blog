@@ -34,8 +34,9 @@ public class PostController {
 	private final PostService postService;
 
 	@PostMapping("/posts")
-	public void savePost(@RequestBody @Valid PostSaveDto params) {
-		postService.write(params);
+	public void savePost(@RequestBody @Valid PostSaveDto postSaveDto) {
+		postSaveDto.validate();
+		postService.write(postSaveDto);
 	}
 
 	@GetMapping("/posts/{postId}")

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import me.mocadev.mocadevblog.exception.InvalidRequestException;
 
 /**
  * 글 등록 DTO
@@ -31,4 +32,11 @@ public class PostSaveDto {
 		this.title = title;
 		this.content = content;
 	}
+
+	public void validate() {
+		if (title.contains("바보")) {
+			throw new InvalidRequestException();
+		}
+	}
+
 }

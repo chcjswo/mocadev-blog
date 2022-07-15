@@ -188,4 +188,28 @@ class PostControllerTest {
 			.andDo(print())
 			.andExpect(status().isNoContent());
 	}
+
+	@Test
+	@DisplayName("존재하지 않는 글 조회")
+	void test2() throws Exception {
+		mockMvc.perform(get("/posts/{postId}", 1L)
+				.contentType(MediaType.APPLICATION_JSON))
+			.andDo(print())
+			.andExpect(status().isNotFound());
+	}
+
+	@Test
+	@DisplayName("게시글 작성 시 잘못된 단어 체크")
+	void savePostInvalidRequestTest() throws Exception {
+		PostSaveDto dto = PostSaveDto.builder()
+			.title("제목 - 바보")
+			.content("내용")
+			.build();
+
+		mockMvc.perform(post("/posts")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(dto)))
+			.andDo(print())
+			.andExpect(status().isBadRequest());
+	}
 }
