@@ -3,6 +3,10 @@ package me.mocadev.mocadevblog.controller;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,6 +18,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -30,9 +36,12 @@ import org.springframework.web.context.WebApplicationContext;
  * @since 2022-07-16
  **/
 @SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.mocadev.me", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
 class PostControllerDocTest {
 
+	@Autowired
 	private MockMvc mockMvc;
 
 	@BeforeEach
@@ -67,7 +76,16 @@ class PostControllerDocTest {
 				.accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andDo(document("index"));
+			.andDo(document("index",
+				pathParameters(
+					parameterWithName("postId").description("게시글 ID")
+				),
+				responseFields(
+					fieldWithPath("id").description("게시글 ID"),
+					fieldWithPath("title").description("제목"),
+					fieldWithPath("content").description("내용")
+				)
+			));
 	}
 
 }
