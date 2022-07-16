@@ -3,16 +3,20 @@ package me.mocadev.mocadevblog.controller;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.mocadev.mocadevblog.domain.Post;
 import me.mocadev.mocadevblog.repository.PostRepository;
+import me.mocadev.mocadevblog.request.PostSaveDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,7 +80,7 @@ class PostControllerDocTest {
 				.accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andDo(document("index",
+			.andDo(document("post-query",
 				pathParameters(
 					parameterWithName("postId").description("게시글 ID")
 				),
@@ -84,6 +88,29 @@ class PostControllerDocTest {
 					fieldWithPath("id").description("게시글 ID"),
 					fieldWithPath("title").description("제목"),
 					fieldWithPath("content").description("내용")
+				)
+			));
+	}
+
+	@Test
+	@DisplayName("글 등록")
+	void test2() throws Exception {
+		// given
+		final PostSaveDto requestPost = PostSaveDto.builder()
+			.title("제목")
+			.content("내용")
+			.build();
+
+		mockMvc.perform(post("/posts")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(requestPost)))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andDo(document("post-create",
+				requestFields(
+					fieldWithPath("title").description("제목")
+						.attributes(key("constraint").value("제목 입력해주세요")),
+					fieldWithPath("content").description("내용").optional()
 				)
 			));
 	}
