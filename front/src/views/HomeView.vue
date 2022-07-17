@@ -4,18 +4,18 @@ import {ref} from "vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter();
-  const posts = ref([]);
+const posts = ref([]);
 
-  axios.get("http//localhost:8080/posts?page=1&size=5")
-  .then(response => {
-    response.data.forEach((item: any) => {
-      posts.value.push(item);
-    })
-  });
+axios.get("http//localhost:8080/posts?page=1&size=5")
+.then(response => {
+  response.data.forEach((item: any) => {
+    posts.value.push(item);
+  })
+});
 
-  const moveToRead = () => {
-    router.push({name: "read"});
-  }
+const moveToRead = () => {
+  router.push({name: "read"});
+}
 </script>
 
 <template>

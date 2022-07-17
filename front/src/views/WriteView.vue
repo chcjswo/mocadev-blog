@@ -4,25 +4,25 @@ import axios from "axios";
 import {useRouter} from "vue-router";
 
 const title = ref("");
-  const content = ref("");
+const content = ref("");
 
-  const router = useRouter();
+const router = useRouter();
 
-  const write = () => {
-    axios.post("http//localhost:8080/posts", {
-      title: title.value,
-      content: content.value
-    })
-    .then(() => {
-      router.replace({name: "home"});
-    });
-  };
+const write = () => {
+  axios.post("http//localhost:8080/posts", {
+    title: title.value,
+    content: content.value
+  })
+  .then(() => {
+    router.replace({name: "home"});
+  });
+};
 </script>
 
 <template>
   <div>
     <div class="mt-2">
-      <el-input placeholder="제목을 입력해주세요." v-model="title" />
+      <el-input placeholder="제목을 입력해주세요." v-model="title"/>
     </div>
     <div class="mt-2">
       <el-input
