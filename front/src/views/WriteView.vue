@@ -32,7 +32,7 @@ const write = () => {
         placeholder="내용 입력"
       />
     </div>
-    <div class="mt-2">
+    <div class="mt-2 d-flex justify-content-end">
       <el-button type="primary" @click="write()">글 작성</el-button>
     </div>
   </div>

@@ -32,8 +32,28 @@ const moveToEdit = () => {
 </script>
 
 <template>
-  <h2>{{ post.title }}}</h2>
-  <div>{{ post.content }}</div>
+  <el-row>
+    <el-col>
+      <h2>{{ post.title }}}</h2>
 
-  <el-button type="warning" @click="moveToEdit()">수정하기</el-button>
+      <div class="sub d-flex">
+        <div class="category">개발</div>
+        <div class="regDate">2022-07-19 00:00:00</div>
+      </div>
+    </el-col>
+  </el-row>
+
+  <el-row class="mt-3">
+    <el-col>
+      <div>{{ post.content }}</div>
+    </el-col>
+  </el-row>
+
+  <el-row class="mt-3">
+    <el-col>
+      <div class="d-flex justify-content-end">
+        <el-button type="warning" @click="moveToEdit()">수정하기</el-button>
+      </div>
+    </el-col>
+  </el-row>
 </template>

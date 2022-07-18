@@ -35,32 +35,55 @@ const moveToRead = () => {
       <div class="content">
         {{ post.content }}
       </div>
+
+      <div class="d-flex sub">
+        <div class="category">개발</div>
+        <div class="regDate">2022-07-18</div>
+      </div>
     </li>
   </ul>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 ul {
   list-style: none;
   padding: 0;
-}
 
-li {
-  margin-bottom: 1.3rem;
-}
+  li {
+    margin-bottom: 1.6rem;
 
-li .title a {
-  font-size: 1.2rem;
-  color: #383838;
-  text-decoration: none;
-}
+    .title {
+      a {
+        font-size: 1.1rem;
+        color: #383838;
+        text-decoration: none;
+      }
 
-li .content {
-  font-size: 0.9rem;
-  color: #5d5d5d;
-}
+      &:hover {
+        text-decoration: underline;
+      }
+    }
 
-li:last-child {
-  margin-bottom: 0;
+    .content {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      color: #5d5d5d;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .sub {
+      margin-top: 8px;
+      font-size: 0.78rem;
+
+      .regDate {
+        color: #6b6b6b;
+        margin-left: 10px;
+      }
+    }
+
+  }
 }
 </style>
