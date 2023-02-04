@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,9 +35,12 @@ public class PostController {
 	private final PostService postService;
 
 	@PostMapping("/posts")
-	public void savePost(@RequestBody @Valid PostSaveDto postSaveDto) {
-		postSaveDto.validate();
-		postService.write(postSaveDto);
+	public void savePost(@RequestBody @Valid PostSaveDto postSaveDto,
+						 @RequestParam String authorization) {
+		if (authorization.equals("chcjswo")) {
+			postSaveDto.validate();
+			postService.write(postSaveDto);
+		}
 	}
 
 	@GetMapping("/posts/{postId}")
