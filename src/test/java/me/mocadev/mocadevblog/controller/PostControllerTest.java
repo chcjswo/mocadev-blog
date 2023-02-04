@@ -95,7 +95,8 @@ class PostControllerTest {
 			.content("내용")
 			.build();
 
-		mockMvc.perform(post("/posts?authorization=chcjswo")
+		mockMvc.perform(post("/posts")
+				.header("authorization", "chcjswo")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(dto)))
 			.andDo(print())
