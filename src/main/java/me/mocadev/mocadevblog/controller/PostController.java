@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,8 @@ public class PostController {
 	}
 
 	@GetMapping("/foo")
-	public String foo() {
+	public String foo(@RequestAttribute String userName) {
+		log.info("userName = {}", userName);
 		return "hello foo";
 	}
 
