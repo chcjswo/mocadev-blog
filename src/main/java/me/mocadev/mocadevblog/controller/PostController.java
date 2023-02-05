@@ -34,6 +34,16 @@ public class PostController {
 
 	private final PostService postService;
 
+	@GetMapping("/test")
+	public String test() {
+		return "hello test";
+	}
+
+	@GetMapping("/foo")
+	public String foo() {
+		return "hello foo";
+	}
+
 	@PostMapping("/posts")
 	public void savePost(@RequestBody @Valid PostSaveDto postSaveDto,
 						 @RequestHeader String authorization) {
