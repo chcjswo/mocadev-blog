@@ -42,8 +42,8 @@ public class PostController {
 
 	@GetMapping("/foo")
 	public String foo(UserSession userSession) {
-		log.info("userName = {}", userSession.name);
-		return "hello " + userSession.name;
+		log.info("userName = {}", userSession.id);
+		return "hello " + userSession.id;
 	}
 
 	@PostMapping("/posts")

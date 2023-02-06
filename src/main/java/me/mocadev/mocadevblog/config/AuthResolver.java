@@ -25,12 +25,14 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 								  NativeWebRequest webRequest, WebDataBinderFactory binderFactory)
 		throws Exception {
-		final String accessToken = webRequest.getParameter("accessToken");
+		final String accessToken = webRequest.getHeader("Authorization");
 		if (accessToken == null || accessToken.equals("")) {
 			throw new UnAuthorizedException();
 		}
-		UserSession userSession = new UserSession();
-		userSession.name = accessToken;
-		return userSession;
+
+		// 데이터베이스 확인 작업
+		// ......
+
+		return new UserSession(1L);
 	}
 }
