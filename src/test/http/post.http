@@ -3,3 +3,12 @@
 GET http://localhost:8080/foo
 Content-Type: application/json
 Authorization: rooter
+
+### 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "chcjswo@test.com",
+    "password": "1234"
+}
