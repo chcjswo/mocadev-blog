@@ -1,5 +1,11 @@
 spring:
-  data:
-    web:
-      pageable:
-          one-indexed-parameters: true
+    jpa:
+        defer-datasource-initialization: true
+    sql:
+        init-mode: always
+    data:
+        web:
+            pageable:
+                max-page-size: 2000
+                default-page-size: 20
+                one-indexed-parameters: true

@@ -1,6 +1,7 @@
 package me.mocadev.mocadevblog.request;
 
 import javax.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -17,4 +18,10 @@ public class LoginDto {
 	private String email;
 	@NotBlank(message = "패스워드를 입력해주세요.")
 	private String password;
+
+	@Builder
+	public LoginDto(String email, String password) {
+		this.email = email;
+		this.password = password;
+	}
 }

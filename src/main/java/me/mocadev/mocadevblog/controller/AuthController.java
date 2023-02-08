@@ -2,10 +2,9 @@ package me.mocadev.mocadevblog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.mocadev.mocadevblog.domain.User;
-import me.mocadev.mocadevblog.exception.InvalidLogin;
-import me.mocadev.mocadevblog.repository.UserRepository;
 import me.mocadev.mocadevblog.request.LoginDto;
+import me.mocadev.mocadevblog.response.SessionResponseDto;
+import me.mocadev.mocadevblog.service.AuthService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,16 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-	private final UserRepository userRepository;
+	private final AuthService authService;
 
 	@PostMapping("/auth/login")
-	public User login(@RequestBody LoginDto loginDto) {
+	public SessionResponseDto login(@RequestBody LoginDto loginDto) {
 		log.info("login >>> {}", loginDto);
-
-		final User user = userRepository.findByEmailAndPassword(
-			loginDto.getEmail(), loginDto.getPassword())
-			.orElseThrow(InvalidLogin::new);
-
-		return user;
+		final String accessToken = authService.sign(loginDto);
+		return new SessionResponseDto(accessToken);
 	}
 }
