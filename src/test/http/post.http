@@ -2,7 +2,8 @@
 
 GET http://localhost:8080/foo
 Content-Type: application/json
-Authorization: rooter
+Cookie:  SESSION=df067b42-dca2-4cec-8700-3a157b27432a
+#Authorization: rooter
 
 ### 로그인
 POST http://localhost:8080/auth/login

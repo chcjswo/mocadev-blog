@@ -1,6 +1,9 @@
 package me.mocadev.mocadevblog.config;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Session;
 import me.mocadev.mocadevblog.exception.UnAuthorizedException;
 import me.mocadev.mocadevblog.repository.SessionRepository;
@@ -17,6 +20,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @github https://github.com/chcjswo
  * @since 2023-02-06
  **/
+@Slf4j
 @RequiredArgsConstructor
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
@@ -31,10 +35,17 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 								  NativeWebRequest webRequest, WebDataBinderFactory binderFactory)
 		throws Exception {
-		final String accessToken = webRequest.getHeader("Authorization");
-		if (accessToken == null || accessToken.equals("")) {
+		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+		if (request == null) {
+			log.error("HttpServletRequest is null");
 			throw new UnAuthorizedException();
 		}
+		Cookie[] cookies = request.getCookies();
+		if (cookies.length == 0) {
+			log.error("쿠키 없음");
+			throw new UnAuthorizedException();
+		}
+		String accessToken = cookies[0].getValue();
 
 		final Session session = sessionRepository.findByAccessToken(accessToken)
 			.orElseThrow(UnAuthorizedException::new);
