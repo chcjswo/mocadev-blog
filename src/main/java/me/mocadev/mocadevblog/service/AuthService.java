@@ -1,7 +1,6 @@
 package me.mocadev.mocadevblog.service;
 
 import lombok.RequiredArgsConstructor;
-import me.mocadev.mocadevblog.domain.Session;
 import me.mocadev.mocadevblog.domain.User;
 import me.mocadev.mocadevblog.exception.InvalidLogin;
 import me.mocadev.mocadevblog.repository.UserRepository;
@@ -23,12 +22,10 @@ public class AuthService {
 	private final UserRepository userRepository;
 
 	@Transactional
-	public String sign(LoginDto loginDto) {
+	public Long sign(LoginDto loginDto) {
 		final User user = userRepository.findByEmailAndPassword(
 				loginDto.getEmail(), loginDto.getPassword())
 			.orElseThrow(InvalidLogin::new);
-
-		final Session session = user.addSession();
-		return session.getAccessToken();
+		return user.getId();
 	}
 }
