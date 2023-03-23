@@ -2,10 +2,11 @@ package me.mocadev.mocadevblog.controller;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import java.util.Base64;
+import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.mocadev.mocadevblog.config.AppConfig;
 import me.mocadev.mocadevblog.request.LoginDto;
 import me.mocadev.mocadevblog.response.SessionResponseDto;
 import me.mocadev.mocadevblog.service.AuthService;
@@ -26,16 +27,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
 	private final AuthService authService;
-	private static final String KEY = "s27bPAGI6zwnDIpvxE8cqcJLKCSpZel7cVg+JAVM43A=";
+	private final AppConfig appConfig;
 
 	@PostMapping("/auth/login")
 	public SessionResponseDto login(@RequestBody LoginDto loginDto) {
 		final Long userId = authService.sign(loginDto);
 
-		SecretKey secretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
+//		SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//		byte[] encode = Base64.getEncoder().encode(key.getEncoded());
+
+		SecretKey secretKey = Keys.hmacShaKeyFor(appConfig.getSecretKey());
 		String jws = Jwts.builder()
 			.setSubject(String.valueOf(userId))
 			.signWith(secretKey)
+			.setExpiration(new Date())
 			.compact();
 
 		return new SessionResponseDto(jws);

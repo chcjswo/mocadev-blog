@@ -1,5 +1,6 @@
 package me.mocadev.mocadevblog.config;
 
+import java.util.Base64;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -15,6 +16,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AppConfig {
 
 	private Mocadev data;
+	private byte[] secretKey;
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = Base64.getDecoder().decode(secretKey);
+	}
 
 	@Data
 	private static class Mocadev {

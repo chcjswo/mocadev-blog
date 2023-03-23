@@ -26,3 +26,4 @@ mocadev:
     data:
         name: mocadev
         age: 30
+    secret-key: s27bPAGI6zwnDIpvxE8cqcJLKCSpZel7cVg+JAVM43A=

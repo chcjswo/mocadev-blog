@@ -3,7 +3,7 @@
 GET http://localhost:8080/foo
 Content-Type: application/json
 #Cookie:  SESSION=df067b42-dca2-4cec-8700-3a157b27432a
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.32R7PSHT7sSuBkjm2seF0e0Cc9JxpASbmZGquw4Z9mQ
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjc5NTg4OTk0fQ.5FSQcvW81PJQTVWsJyukR_YASOYvTQ1krH2OIWRV2fY
 
 ### 로그인
 POST http://localhost:8080/auth/login
