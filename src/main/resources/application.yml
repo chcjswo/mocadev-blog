@@ -22,3 +22,7 @@ spring:
                 max-page-size: 2000
                 default-page-size: 20
                 one-indexed-parameters: true
+mocadev:
+    data:
+        name: mocadev
+        age: 30
