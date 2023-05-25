@@ -1,8 +1,6 @@
 package me.mocadev.mocadevblog.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.mocadev.mocadevblog.domain.Post;
@@ -15,6 +13,9 @@ import me.mocadev.mocadevblog.request.PostSaveDto;
 import me.mocadev.mocadevblog.request.PostSearch;
 import me.mocadev.mocadevblog.response.PostResponseDto;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author chcjswo

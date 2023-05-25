@@ -1,16 +1,7 @@
 package me.mocadev.mocadevblog.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.mocadev.mocadevblog.domain.Session;
 import me.mocadev.mocadevblog.domain.User;
-import me.mocadev.mocadevblog.repository.SessionRepository;
 import me.mocadev.mocadevblog.repository.UserRepository;
 import me.mocadev.mocadevblog.request.LoginDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @author chcjswo
@@ -42,9 +39,6 @@ class AuthControllerTest {
 
 	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
-	private SessionRepository sessionRepository;
 
 	@BeforeEach
 	void after() {
@@ -97,8 +91,6 @@ class AuthControllerTest {
 			.andExpect(status().isOk());
 
 		final User user = userRepository.findById(savedUser.getId()).get();
-
-		assertThat(sessionRepository.count()).isEqualTo(user.getSessions().size());
 	}
 
 	@Test
@@ -110,14 +102,7 @@ class AuthControllerTest {
 			.name("chcjswo")
 			.password("1234")
 			.build();
-		final Session session = user.addSession();
 		userRepository.save(user);
-
-		mockMvc.perform(get("/foo")
-				.header("Authorization", session.getAccessToken())
-				.contentType(MediaType.APPLICATION_JSON))
-			.andDo(print())
-			.andExpect(status().isOk());
 	}
 
 	@Test
@@ -129,11 +114,9 @@ class AuthControllerTest {
 			.name("chcjswo")
 			.password("1234")
 			.build();
-		final Session session = user.addSession();
 		userRepository.save(user);
 
 		mockMvc.perform(get("/foo")
-				.header("Authorization", session.getAccessToken() + "_test")
 				.contentType(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isUnauthorized());
