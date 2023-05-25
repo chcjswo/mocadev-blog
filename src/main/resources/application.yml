@@ -8,7 +8,7 @@ spring:
         url: jdbc:h2:mem:chcjswo;NON_KEYWORDS=USER
         username: sa
         password:
-        driver-class-name: or.h2.Driver
+        driver-class-name: org.h2.Driver
 
 #    jpa:
 #        defer-datasource-initialization: true
