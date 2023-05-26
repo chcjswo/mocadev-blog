@@ -1,8 +1,9 @@
 package me.mocadev.mocadevblog.repository;
 
-import java.util.Optional;
 import me.mocadev.mocadevblog.domain.User;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.Optional;
 
 /**
  * @author chcjswo
@@ -14,4 +15,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository extends CrudRepository<User, Long> {
 
 	Optional<User> findByEmailAndPassword(String email, String password);
+
+    Optional<User> findByEmail(String email);
 }
