@@ -43,8 +43,12 @@ public class SecurityConfig {
 				.loginProcessingUrl("/auth/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-			.defaultSuccessUrl("/")
+				.defaultSuccessUrl("/")
 			.and()
+			.rememberMe(rm -> rm.rememberMeParameter("remember")
+				.alwaysRemember(false)
+				.tokenValiditySeconds(2592000)
+			)
 			.userDetailsService(userDetailsService())
 			.csrf(AbstractHttpConfigurer::disable)
 			.build();
