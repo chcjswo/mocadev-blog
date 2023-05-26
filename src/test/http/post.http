@@ -7,9 +7,6 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjc5NTg4OTk0fQ.5FSQc
 
 ### 로그인
 POST http://localhost:8080/auth/login
-Content-Type: application/json
+Content-Type: application/x-www-form-urlencoded
 
-{
-    "email": "chcjswo@test.com",
-    "password": "1234"
-}
+username=chcjswo&password=1234
