@@ -22,6 +22,15 @@ spring:
                 max-page-size: 2000
                 default-page-size: 20
                 one-indexed-parameters: true
+    session:
+        timeout: 86400
+
+server:
+    servlet:
+        session:
+            cookie:
+                max-age: 172800
+
 mocadev:
     data:
         name: mocadev
